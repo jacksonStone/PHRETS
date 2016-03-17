@@ -49,7 +49,7 @@ class Session
                 'Accept' => '*/*',
             ]
         ];
-		
+
 		if ($this->configuration->readOption('disable_follow_location')) {
             $this->default_options['allow_redirects'] = false;
         }
@@ -141,15 +141,12 @@ class Session
             ]
         );
 
-        if (preg_match('/multipart/', $response->getHeader('Content-Type'))) {
-            $parser = $this->grab('parser.object.multiple');
-            $collection = $parser->parse($response);
-        } else {
+
             $collection = new Collection;
             $parser = $this->grab('parser.object.single');
             $object = $parser->parse($response);
             $collection->push($object);
-        }
+         
 
         return $collection;
     }
@@ -326,11 +323,11 @@ class Session
         if (!array_key_exists('headers', $options)) {
             $options['headers'] = [];
         }
-		
+
 		if (!array_key_exists('auth', $options)) {
             $options['auth'] = [];
         }
-		
+
 		if (!array_key_exists('allow_redirects', $options) && @$this->default_options['allow_redirects']) {
            	$options['allow_redirects'] = $this->default_options['allow_redirects'];
         }
